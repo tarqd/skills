@@ -1,0 +1,42 @@
+name = "Claude Code Agent"
+description = "Scaffold a specialized agent for Claude Code plugins"
+kickstart_version = 1
+
+[[variables]]
+name = "agent_name"
+default = "my-agent"
+prompt = "Agent name (kebab-case)?"
+validation = "^[a-z][a-z0-9-]*$"
+
+[[variables]]
+name = "agent_description"
+default = "A specialized agent"
+prompt = "Brief description of what this agent does?"
+
+[[variables]]
+name = "trigger_description"
+default = "the task requires specialized analysis"
+prompt = "When should this agent be invoked? (complete: 'Use when...')"
+
+[[variables]]
+name = "tools"
+default = "Read, Grep, Glob"
+prompt = "Tools the agent can use?"
+choices = ["Read, Grep, Glob", "Read, Grep, Glob, Bash", "Read, Grep, Glob, Bash, Write, Edit", "All tools except Task"]
+
+[[variables]]
+name = "model"
+default = "sonnet"
+prompt = "Model to use?"
+choices = ["sonnet", "opus", "haiku", "inherit"]
+
+[[variables]]
+name = "proactive"
+default = false
+prompt = "Should this agent be invoked proactively (without explicit user request)?"
+
+# Derived
+[[variables]]
+name = "agent_title"
+default = "{{ agent_name | title_case }}"
+derived = true

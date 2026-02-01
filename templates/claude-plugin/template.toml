@@ -1,0 +1,31 @@
+name = "Claude Code Plugin"
+description = "Scaffold a new Claude Code plugin"
+kickstart_version = 1
+
+[[variables]]
+name = "plugin_name"
+default = "my-plugin"
+prompt = "Plugin name (kebab-case)?"
+validation = "^[a-z][a-z0-9-]*$"
+
+[[variables]]
+name = "plugin_description"
+default = "A Claude Code plugin"
+prompt = "Brief description?"
+
+[[variables]]
+name = "author_name"
+default = ""
+prompt = "Author name?"
+
+[[variables]]
+name = "license"
+default = "MIT"
+prompt = "License?"
+choices = ["MIT", "Apache-2.0", "GPL-3.0", "ISC", "Unlicense"]
+
+# Derived
+[[variables]]
+name = "plugin_title"
+default = "{{ plugin_name | title_case }}"
+derived = true

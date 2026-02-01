@@ -1,0 +1,52 @@
+name = "Claude Code Skill"
+description = "Scaffold a skill for Claude Code plugins"
+kickstart_version = 1
+
+[[variables]]
+name = "skill_name"
+default = "my-skill"
+prompt = "Skill name (kebab-case)?"
+validation = "^[a-z][a-z0-9-]*$"
+
+[[variables]]
+name = "skill_description"
+default = "A Claude Code skill"
+prompt = "Brief description of what this skill does?"
+
+[[variables]]
+name = "trigger_description"
+default = "the user wants help with this topic"
+prompt = "When should this skill activate? (complete the sentence: 'Use when...')"
+
+[[variables]]
+name = "allowed_tools"
+default = "Read, Grep, Glob"
+prompt = "Allowed tools (comma-separated)?"
+choices = ["Read, Grep, Glob", "Read, Grep, Glob, Bash", "Read, Grep, Glob, Bash, Write, Edit", "All"]
+
+[[variables]]
+name = "include_reference"
+default = true
+prompt = "Include a reference.md file?"
+
+[[variables]]
+name = "include_examples"
+default = false
+prompt = "Include an examples.md file?"
+
+# Derived
+[[variables]]
+name = "skill_title"
+default = "{{ skill_name | title_case }}"
+derived = true
+
+# Cleanup
+[[cleanup]]
+name = "include_reference"
+value = false
+paths = ["{{ skill_name }}/reference.md"]
+
+[[cleanup]]
+name = "include_examples"
+value = false
+paths = ["{{ skill_name }}/examples.md"]

@@ -1,0 +1,26 @@
+{
+  "description": "{{ description }}",
+  "hooks": {
+    "{{ hook_event }}": [
+      {
+        "matcher": "{{ matcher }}",
+        "hooks": [
+          {% if hook_type == 'command' %}{
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/hook.sh",
+            "timeout": {{ timeout }}
+          }{% elif hook_type == 'prompt' %}{
+            "type": "prompt",
+            "prompt": "{{ prompt_text }}",
+            "timeout": {{ timeout }}
+          }{% else %}{
+            "type": "agent",
+            "prompt": "{{ prompt_text }}",
+            "allowedTools": ["Read", "Grep", "Glob"],
+            "timeout": {{ timeout }}
+          }{% endif %}
+        ]
+      }
+    ]
+  }
+}

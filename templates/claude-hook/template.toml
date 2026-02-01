@@ -1,0 +1,77 @@
+name = "Claude Code Hook"
+description = "Scaffold a hook configuration for Claude Code plugins"
+kickstart_version = 1
+
+[[variables]]
+name = "hook_name"
+default = "my-hook"
+prompt = "Hook configuration name?"
+validation = "^[a-z][a-z0-9-]*$"
+
+[[variables]]
+name = "description"
+default = "Custom hook for Claude Code"
+prompt = "Brief description of what these hooks do?"
+
+[[variables]]
+name = "hook_event"
+default = "PreToolUse"
+prompt = "Primary hook event type?"
+choices = ["PreToolUse", "PostToolUse", "SessionStart", "SessionEnd", "UserPromptSubmit", "Stop", "SubagentStop", "Notification", "PreCompact"]
+
+[[variables]]
+name = "hook_type"
+default = "command"
+prompt = "Hook implementation type?"
+choices = ["command", "prompt", "agent"]
+
+[[variables]]
+name = "tool_matcher"
+default = "*"
+prompt = "Tool matcher pattern (regex, e.g. 'Write|Edit' or '*' for all)?"
+only_if = { name = "hook_event", value = "PreToolUse" }
+
+[[variables]]
+name = "tool_matcher_post"
+default = "*"
+prompt = "Tool matcher pattern (regex, e.g. 'Write|Edit' or '*' for all)?"
+only_if = { name = "hook_event", value = "PostToolUse" }
+
+[[variables]]
+name = "include_script"
+default = true
+prompt = "Include a starter script?"
+only_if = { name = "hook_type", value = "command" }
+
+[[variables]]
+name = "prompt_text"
+default = "Analyze the tool use and determine if it should proceed."
+prompt = "Prompt text for the hook?"
+only_if = { name = "hook_type", value = "prompt" }
+
+[[variables]]
+name = "timeout"
+default = "30"
+prompt = "Timeout in seconds?"
+
+# Derived
+[[variables]]
+name = "matcher"
+default = "{% if hook_event == 'PreToolUse' %}{{ tool_matcher }}{% elif hook_event == 'PostToolUse' %}{{ tool_matcher_post }}{% elif hook_event == 'SessionStart' or hook_event == 'SessionEnd' %}startup{% else %}*{% endif %}"
+derived = true
+
+# Cleanup
+[[cleanup]]
+name = "include_script"
+value = false
+paths = ["{{ hook_name }}/scripts"]
+
+[[cleanup]]
+name = "hook_type"
+value = "prompt"
+paths = ["{{ hook_name }}/scripts"]
+
+[[cleanup]]
+name = "hook_type"
+value = "agent"
+paths = ["{{ hook_name }}/scripts"]
