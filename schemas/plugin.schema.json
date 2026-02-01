@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://code.claude.com/schemas/plugin.schema.json",
+  "title": "Claude Code Plugin Manifest",
+  "description": "Schema for Claude Code plugin.json files located in .claude-plugin/ directory",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Plugin identifier (kebab-case, no spaces)",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version (e.g., 1.0.0)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?(\\+[a-zA-Z0-9.-]+)?$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief explanation of plugin purpose"
+    },
+    "author": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Author name as string"
+        },
+        {
+          "$ref": "#/$defs/author"
+        }
+      ],
+      "description": "Plugin author information"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Plugin documentation URL"
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "Source code repository URL"
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier (e.g., MIT, Apache-2.0)"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for plugin discovery"
+    },
+    "commands": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to command file or directory"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of paths to command files or directories"
+        }
+      ],
+      "description": "Custom paths to command files (only use for non-standard locations)"
+    },
+    "agents": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to agent file or directory"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of paths to agent files or directories"
+        }
+      ],
+      "description": "Custom paths to agent files (only use for non-standard locations)"
+    },
+    "skills": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to skills directory"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Skill name"
+                  },
+                  "allowed-tools": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Tools allowed when skill is active"
+                  }
+                },
+                "required": ["name"]
+              }
+            ]
+          },
+          "description": "Array of skill paths or configurations"
+        }
+      ],
+      "description": "Custom paths to skill directories (only use for non-standard locations)"
+    },
+    "hooks": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to hooks configuration file"
+        },
+        {
+          "$ref": "#/$defs/hooksConfig"
+        }
+      ],
+      "description": "Hook configuration (path to file or inline config)"
+    },
+    "mcpServers": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to MCP configuration file"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/mcpServer"
+          },
+          "description": "MCP server configurations"
+        }
+      ],
+      "description": "MCP server configuration (path to file or inline config)"
+    },
+    "lspServers": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to LSP configuration file"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/lspServer"
+          },
+          "description": "LSP server configurations"
+        }
+      ],
+      "description": "LSP server configuration (path to file or inline config)"
+    },
+    "outputStyles": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to output styles directory"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of paths to output style files"
+        }
+      ],
+      "description": "Custom paths to output style files"
+    }
+  },
+  "$defs": {
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Author name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Author email"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Author website or profile URL"
+        }
+      },
+      "required": ["name"]
+    },
+    "hooksConfig": {
+      "type": "object",
+      "properties": {
+        "PreToolUse": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "PostToolUse": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "PermissionRequest": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "UserPromptSubmit": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "Notification": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "Stop": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "SubagentStop": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "SessionStart": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "SessionEnd": {
+          "$ref": "#/$defs/hookEventConfig"
+        },
+        "PreCompact": {
+          "$ref": "#/$defs/hookEventConfig"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hookEventConfig": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "matcher": {
+            "type": "string",
+            "description": "Regex pattern to match tool names (for PreToolUse, PostToolUse, PermissionRequest)"
+          },
+          "hooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/hook"
+            }
+          }
+        },
+        "required": ["hooks"]
+      }
+    },
+    "hook": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["command", "prompt", "agent"],
+          "description": "Hook execution type"
+        },
+        "command": {
+          "type": "string",
+          "description": "Shell command to execute (for type: command)"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Prompt to evaluate with LLM (for type: prompt)"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Timeout in seconds"
+        }
+      },
+      "required": ["type"]
+    },
+    "mcpServer": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Server command or binary path"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Command arguments"
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Environment variables"
+        }
+      },
+      "required": ["command"]
+    },
+    "lspServer": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Language server binary name"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Arguments to pass to the server"
+        },
+        "extensionToLanguage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Maps file extensions to language identifiers"
+        }
+      },
+      "required": ["command", "extensionToLanguage"]
+    }
+  }
+}
