@@ -80,7 +80,23 @@ just                     # Show all recipes
 
 ### Local Development
 
-For iterative plugin development, add the marketplace locally:
+#### Testing with `--plugin-dir`
+
+The fastest way to test a plugin during development is using the `--plugin-dir` flag:
+
+```bash
+# Test a plugin directly without installing
+claude --plugin-dir ./plugins/my-plugin
+
+# Test multiple plugins
+claude --plugin-dir ./plugins/kickstart --plugin-dir ./plugins/rust
+```
+
+This loads the plugin directly from the directory, so changes take effect immediately on the next session.
+
+#### Using Local Marketplace
+
+Alternatively, add the marketplace locally for a more production-like setup:
 
 ```bash
 # Clone and enter the repo
