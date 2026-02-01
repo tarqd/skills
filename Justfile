@@ -15,6 +15,11 @@ help:
 setup:
     brew install kickstart jq sourcemeta/apps/jsonschema
 
+# Add this marketplace locally to Claude Code
+[group('setup')]
+add-marketplace:
+    claude plugin marketplace add {{justfile_directory()}}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Create & Scaffold
 # ─────────────────────────────────────────────────────────────────────────────
