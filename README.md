@@ -1,4 +1,4 @@
-# tarq-code
+# tarq
 
 A personal collection of Claude Code plugins by Chris Tarquini.
 
@@ -18,23 +18,23 @@ A personal collection of Claude Code plugins by Chris Tarquini.
 
 ```bash
 # Add the marketplace
-/plugin marketplace add tarq-code/skills
+/plugin marketplace add tarqd/skills
 
 # Install a plugin
-/plugin install kickstart@tarq-code
+/plugin install kickstart@tarq
 ```
 
 Or install from a local clone:
 
 ```bash
-git clone https://github.com/tarq-code/skills.git
+git clone https://github.com/tarqd/skills.git
 cd skills
 
 # Add local marketplace
 /plugin marketplace add .
 
 # Install plugins
-/plugin install kickstart@tarq-code
+/plugin install kickstart@tarq
 ```
 
 ## Development
