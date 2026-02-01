@@ -19,9 +19,9 @@ Create and distribute Claude Code plugins for your team or community. This GitHu
 | Component | Description |
 |-----------|-------------|
 | **Marketplace Configuration** | `.claude-plugin/marketplace.json` following the [official schema](https://code.claude.com/docs/en/plugin-marketplaces#marketplace-schema) |
-| **Plugin Development Toolkit** | `plugin-development` plugin with 7 slash commands, a `plugin-authoring` skill for ambient guidance, and a reviewer agent |
-| **Example Plugin** | `hello-world` plugin demonstrating proper structure and best practices |
-| **CI/CD Workflows** | GitHub Actions for automated plugin validation on every push and PR |
+| **Kickstart Templates** | Scaffold plugins, skills, agents, and hooks with `just new-plugin`, `just add-skill`, etc. |
+| **Plugin Development Toolkit** | `plugin-development` plugin with slash commands, a `plugin-authoring` skill, and a reviewer agent |
+| **CI/CD Workflows** | GitHub Actions for automated validation on every push and PR |
 | **Documentation** | Complete guides for plugins, hooks, settings, commands, skills, and sub-agents |
 
 ## Quick Start
@@ -100,21 +100,23 @@ The `plugin-development` plugin provides these commands:
 ```
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace configuration
-├── .github/
-│   └── workflows/
-│       └── validate-plugins.yml  # CI/CD validation
-├── docs/                         # Comprehensive documentation
-│   ├── plugins.md                # Plugin development guide
-│   ├── plugins-reference.md      # Technical specifications
-│   ├── plugin-marketplaces.md    # Marketplace management
-│   ├── hooks.md                  # Event-driven automation
-│   ├── settings.md               # Configuration options
-│   ├── slash-commands.md         # Command system reference
-│   ├── skills.md                 # Agent skills guide
-│   └── sub-agents.md             # Sub-agent system
-└── plugins/
-    ├── hello-world/              # Example plugin
-    └── plugin-development/       # Development toolkit
+├── .github/workflows/
+│   └── validate-plugins.yml      # CI/CD validation
+├── ci/                           # Validation scripts
+│   ├── validate-schemas.sh
+│   ├── validate-structure.sh
+│   ├── validate-templates.sh
+│   └── check-duplicates.sh
+├── templates/                    # Kickstart templates
+│   ├── claude-plugin/            # Full plugin scaffold
+│   ├── claude-skill/             # Skill template
+│   ├── claude-agent/             # Agent template
+│   └── claude-hook/              # Hook template
+├── docs/                         # Documentation
+├── plugins/                      # Your plugins
+│   └── plugin-development/       # Development toolkit
+├── Justfile                      # Task runner recipes
+└── schemas/                      # JSON schemas
 ```
 
 ## Team Distribution
@@ -190,15 +192,78 @@ Remove the marketplace and its plugins from Claude Code:
 
 To completely remove, delete the cloned repository directory.
 
+## Scaffolding with Kickstart Templates
+
+This repository includes [kickstart](https://github.com/Keats/kickstart) templates for scaffolding plugins and components.
+
+### Prerequisites
+
+```bash
+# Install dependencies (macOS)
+just setup
+```
+
+### Create a New Plugin
+
+```bash
+just new-plugin
+```
+
+This prompts for plugin details, creates the plugin structure, and registers it in `marketplace.json`.
+
+### Add Components to a Plugin
+
+```bash
+just add-skill rust      # Add a skill to the rust plugin
+just add-agent rust      # Add an agent to the rust plugin
+just add-hook rust       # Add a hook to the rust plugin
+
+# Or run interactively (lists available plugins)
+just add-skill
+```
+
+### Available Recipes
+
+```bash
+just                     # Show all available recipes
+```
+
+| Recipe | Description |
+|--------|-------------|
+| `just setup` | Install dependencies via Homebrew |
+| `just new-plugin` | Create a new plugin and register in marketplace |
+| `just add-skill [plugin]` | Add a skill to a plugin |
+| `just add-agent [plugin]` | Add an agent to a plugin |
+| `just add-hook [plugin]` | Add a hook to a plugin |
+| `just validate` | Run all validations |
+| `just ci` | CI entrypoint (runs all validations) |
+
+### Kickstart Templates
+
+Templates are in the `templates/` directory:
+
+| Template | Description |
+|----------|-------------|
+| `claude-plugin` | Full plugin with empty component directories |
+| `claude-skill` | Skill with SKILL.md, reference.md, examples.md |
+| `claude-agent` | Standalone agent file |
+| `claude-hook` | Hook configuration with shell script |
+
+Use templates directly with kickstart:
+
+```bash
+kickstart templates/claude-skill -o plugins/my-plugin/skills
+```
+
 ## Creating Plugins Manually
 
-If you prefer manual setup over the scaffolding commands:
+If you prefer manual setup:
 
 ### 1. Create Plugin Directory
 
 ```bash
 mkdir -p plugins/my-plugin/.claude-plugin
-mkdir -p plugins/my-plugin/commands
+mkdir -p plugins/my-plugin/{skills,commands,agents,hooks}
 ```
 
 ### 2. Add Plugin Manifest
@@ -210,37 +275,12 @@ Create `plugins/my-plugin/.claude-plugin/plugin.json`:
   "name": "my-plugin",
   "version": "1.0.0",
   "description": "Description of what your plugin does",
-  "author": {
-    "name": "Your Name",
-    "email": "your-email@example.com"
-  },
-  "license": "MIT",
-  "keywords": ["keyword1", "keyword2"]
+  "author": { "name": "Your Name" },
+  "license": "MIT"
 }
 ```
 
-### 3. Create a Command
-
-Create `plugins/my-plugin/commands/my-command.md`:
-
-```markdown
----
-description: Brief description of what the command does
-argument-hint: [arg1] [arg2]
----
-
-# My Command
-
-Instructions for Claude on how to execute this command.
-
-## Steps
-
-1. First step
-2. Second step
-3. Third step
-```
-
-### 4. Register in Marketplace
+### 3. Register in Marketplace
 
 Add to `.claude-plugin/marketplace.json`:
 
@@ -249,11 +289,6 @@ Add to `.claude-plugin/marketplace.json`:
   "plugins": [
     {
       "name": "my-plugin",
-      "description": "Description of what your plugin does",
-      "version": "1.0.0",
-      "author": {
-        "name": "Your Name"
-      },
       "source": "./plugins/my-plugin",
       "category": "utilities",
       "tags": ["tag1", "tag2"]
