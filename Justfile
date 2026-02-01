@@ -20,6 +20,190 @@ setup:
 add-marketplace:
     claude plugin marketplace add {{justfile_directory()}}
 
+# Update this marketplace in Claude Code
+[group('setup')]
+update:
+    claude plugin marketplace update $(jq -r .name {{justfile_directory()}}/.claude-plugin/marketplace.json)
+
+# Remove this marketplace from Claude Code
+[group('setup')]
+remove-marketplace:
+    claude plugin marketplace remove $(jq -r .name {{justfile_directory()}}/.claude-plugin/marketplace.json)
+
+# Install a plugin from this marketplace
+[group('setup')]
+install plugin="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    plugin="{{plugin}}"
+    if [[ -z "$plugin" ]]; then
+        echo "📂 Available plugins:"
+        jq -r '.plugins[].name' "$manifest" | sed 's/^/   /'
+        echo
+        read -p "Plugin name: " plugin
+    fi
+    id="$plugin@$marketplace"
+    installed=$(claude plugin list --json | jq -r --arg id "$id" '.[] | select(.id == $id) | .id')
+    if [[ -n "$installed" ]]; then
+        echo "✓ $id is already installed"
+    else
+        claude plugin install "$id"
+    fi
+
+# Uninstall a plugin from this marketplace
+[group('setup')]
+uninstall plugin="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    plugin="{{plugin}}"
+    if [[ -z "$plugin" ]]; then
+        echo "📂 Available plugins:"
+        jq -r '.plugins[].name' "$manifest" | sed 's/^/   /'
+        echo
+        read -p "Plugin name: " plugin
+    fi
+    id="$plugin@$marketplace"
+    installed=$(claude plugin list --json | jq -r --arg id "$id" '.[] | select(.id == $id) | .id')
+    if [[ -z "$installed" ]]; then
+        echo "✓ $id is not installed"
+    else
+        claude plugin uninstall "$id"
+    fi
+
+# Install all plugins from this marketplace
+[group('setup')]
+install-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    installed=$(claude plugin list --json)
+    for plugin in $(jq -r '.plugins[].name' "$manifest"); do
+        id="$plugin@$marketplace"
+        exists=$(echo "$installed" | jq -r --arg id "$id" '.[] | select(.id == $id) | .id')
+        if [[ -n "$exists" ]]; then
+            echo "✓ $id is already installed"
+        else
+            echo "Installing $id..."
+            claude plugin install "$id"
+        fi
+    done
+
+# Uninstall all plugins from this marketplace
+[group('setup')]
+uninstall-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    installed=$(claude plugin list --json)
+    for plugin in $(jq -r '.plugins[].name' "$manifest"); do
+        id="$plugin@$marketplace"
+        exists=$(echo "$installed" | jq -r --arg id "$id" '.[] | select(.id == $id) | .id')
+        if [[ -z "$exists" ]]; then
+            echo "✓ $id is not installed"
+        else
+            echo "Uninstalling $id..."
+            claude plugin uninstall "$id"
+        fi
+    done
+
+# Enable a plugin from this marketplace
+[group('setup')]
+enable plugin="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    plugin="{{plugin}}"
+    if [[ -z "$plugin" ]]; then
+        echo "📂 Available plugins:"
+        jq -r '.plugins[].name' "$manifest" | sed 's/^/   /'
+        echo
+        read -p "Plugin name: " plugin
+    fi
+    id="$plugin@$marketplace"
+    enabled=$(claude plugin list --json | jq -r --arg id "$id" '.[] | select(.id == $id) | .enabled')
+    if [[ "$enabled" == "true" ]]; then
+        echo "✓ $id is already enabled"
+    elif [[ -z "$enabled" ]]; then
+        echo "Installing $id..."
+        claude plugin install "$id"
+    else
+        claude plugin enable "$id"
+    fi
+
+# Disable a plugin from this marketplace
+[group('setup')]
+disable plugin="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    plugin="{{plugin}}"
+    if [[ -z "$plugin" ]]; then
+        echo "📂 Available plugins:"
+        jq -r '.plugins[].name' "$manifest" | sed 's/^/   /'
+        echo
+        read -p "Plugin name: " plugin
+    fi
+    id="$plugin@$marketplace"
+    enabled=$(claude plugin list --json | jq -r --arg id "$id" '.[] | select(.id == $id) | .enabled')
+    if [[ "$enabled" == "false" ]]; then
+        echo "✓ $id is already disabled"
+    elif [[ -z "$enabled" ]]; then
+        echo "✓ $id is not installed"
+    else
+        claude plugin disable "$id"
+    fi
+
+# Enable all plugins from this marketplace
+[group('setup')]
+enable-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    installed=$(claude plugin list --json)
+    for plugin in $(jq -r '.plugins[].name' "$manifest"); do
+        id="$plugin@$marketplace"
+        enabled=$(echo "$installed" | jq -r --arg id "$id" '.[] | select(.id == $id) | .enabled')
+        if [[ "$enabled" == "true" ]]; then
+            echo "✓ $id is already enabled"
+        elif [[ -z "$enabled" ]]; then
+            echo "Installing $id..."
+            claude plugin install "$id"
+        else
+            echo "Enabling $id..."
+            claude plugin enable "$id"
+        fi
+    done
+
+# Disable all plugins from this marketplace
+[group('setup')]
+disable-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    manifest="{{justfile_directory()}}/.claude-plugin/marketplace.json"
+    marketplace=$(jq -r .name "$manifest")
+    installed=$(claude plugin list --json)
+    for plugin in $(jq -r '.plugins[].name' "$manifest"); do
+        id="$plugin@$marketplace"
+        enabled=$(echo "$installed" | jq -r --arg id "$id" '.[] | select(.id == $id) | .enabled')
+        if [[ "$enabled" == "false" ]]; then
+            echo "✓ $id is already disabled"
+        elif [[ -z "$enabled" ]]; then
+            echo "✓ $id is not installed"
+        else
+            echo "Disabling $id..."
+            claude plugin disable "$id"
+        fi
+    done
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Create & Scaffold
 # ─────────────────────────────────────────────────────────────────────────────
