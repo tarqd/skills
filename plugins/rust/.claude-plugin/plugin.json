@@ -1,0 +1,16 @@
+{
+  "name": "rust",
+  "version": "1.0.0",
+  "description": "Skills for exploring Rust documentation and creating Claude skills for Rust crates and binaries",
+  "author": {
+    "name": "Tarq"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rust",
+    "cargo",
+    "documentation",
+    "crates",
+    "skill-creation"
+  ]
+}
