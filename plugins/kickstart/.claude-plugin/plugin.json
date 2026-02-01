@@ -1,0 +1,16 @@
+{
+  "name": "kickstart",
+  "version": "1.0.0",
+  "description": "Skills for using and creating kickstart project templates - a powerful scaffolding tool",
+  "author": {
+    "name": "Tarq"
+  },
+  "license": "MIT",
+  "keywords": [
+    "kickstart",
+    "scaffolding",
+    "templates",
+    "project-generation",
+    "tera"
+  ]
+}
