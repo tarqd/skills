@@ -81,21 +81,24 @@ just                     # Show all recipes
 | `just validate` | Run all validations |
 | `just ci` | CI entrypoint |
 
-### Kickstart Templates
+### Local Development
 
-Templates in `templates/` for scaffolding:
-
-| Template | Description |
-|----------|-------------|
-| `claude-plugin` | Full plugin with empty component directories |
-| `claude-skill` | Skill with SKILL.md, reference.md, examples.md |
-| `claude-agent` | Standalone agent file |
-| `claude-hook` | Hook configuration with shell script |
-
-Use directly:
+For iterative plugin development, add the marketplace locally:
 
 ```bash
-kickstart templates/claude-skill -o plugins/my-plugin/skills
+# Clone and enter the repo
+git clone https://github.com/tarqd/skills.git
+cd skills
+
+# Add as local marketplace
+/plugin marketplace add ./
+
+# Install a plugin you're working on
+/plugin install my-plugin@tarq
+
+# After making changes, reinstall to pick them up
+/plugin uninstall my-plugin@tarq
+/plugin install my-plugin@tarq
 ```
 
 ### Validation
@@ -104,6 +107,53 @@ kickstart templates/claude-skill -o plugins/my-plugin/skills
 just validate            # Run all validations
 just validate-schemas    # Validate JSON schemas
 just validate-templates  # Validate kickstart templates
+```
+
+## Using the Kickstart Templates
+
+The templates can be used standalone to scaffold Claude Code plugins anywhere.
+
+### Install Kickstart
+
+```bash
+# macOS
+brew install kickstart
+
+# Or see https://github.com/Keats/kickstart
+```
+
+### Available Templates
+
+| Template | Description |
+|----------|-------------|
+| `claude-plugin` | Full plugin with empty component directories |
+| `claude-skill` | Skill with SKILL.md, reference.md, examples.md |
+| `claude-agent` | Standalone agent file |
+| `claude-hook` | Hook configuration with shell script |
+
+### Usage
+
+```bash
+# Clone the templates
+git clone https://github.com/tarqd/skills.git
+
+# Create a new plugin anywhere
+kickstart skills/templates/claude-plugin -o ~/my-projects/
+
+# Add a skill to any plugin
+kickstart skills/templates/claude-skill -o ~/my-projects/my-plugin/skills/
+
+# Add an agent
+kickstart skills/templates/claude-agent -o ~/my-projects/my-plugin/agents/
+
+# Add hooks
+kickstart skills/templates/claude-hook -o ~/my-projects/my-plugin/hooks/
+```
+
+Each template prompts for configuration interactively. Use `--no-input` to accept defaults:
+
+```bash
+kickstart skills/templates/claude-plugin -o ./ --no-input
 ```
 
 ## Repository Structure
