@@ -2,7 +2,6 @@
 
 A personal collection of Claude Code plugins by Chris Tarquini.
 
-[![Validate Plugins](https://github.com/anthropics/claude-code/actions/workflows/validate-plugins.yml/badge.svg)](https://github.com/anthropics/claude-code/actions/workflows/validate-plugins.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Plugins
@@ -31,10 +30,8 @@ git clone https://github.com/tarqd/skills.git
 cd skills
 
 # Add local marketplace
-/plugin marketplace add .
-
-# Install plugins
-/plugin install kickstart@tarq
+claude plugin marketplace add ./
+# skills will  be available via /plugin command 
 ```
 
 ## Development
@@ -136,18 +133,19 @@ brew install kickstart
 ```bash
 # Clone the templates
 git clone https://github.com/tarqd/skills.git
+cd skills
 
 # Create a new plugin anywhere
-kickstart skills/templates/claude-plugin -o ~/my-projects/
+kickstart templates/claude-plugin -o ~/my-projects/
 
 # Add a skill to any plugin
-kickstart skills/templates/claude-skill -o ~/my-projects/my-plugin/skills/
+kickstart templates/claude-skill -o ~/my-projects/my-plugin/skills/
 
 # Add an agent
-kickstart skills/templates/claude-agent -o ~/my-projects/my-plugin/agents/
+kickstart templates/claude-agent -o ~/my-projects/my-plugin/agents/
 
 # Add hooks
-kickstart skills/templates/claude-hook -o ~/my-projects/my-plugin/hooks/
+kickstart templates/claude-hook -o ~/my-projects/my-plugin/hooks/
 ```
 
 Each template prompts for configuration interactively. Use `--no-input` to accept defaults:

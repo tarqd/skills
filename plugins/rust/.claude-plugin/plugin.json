@@ -1,7 +1,7 @@
 {
   "name": "rust",
   "version": "1.0.0",
-  "description": "Skills for exploring Rust documentation and creating Claude skills for Rust crates and binaries",
+  "description": "Skills for Rust development: exploring crate documentation, creating skills for crates, and writing Tera templates",
   "author": {
     "name": "Tarq"
   },
@@ -11,6 +11,8 @@
     "cargo",
     "documentation",
     "crates",
-    "skill-creation"
+    "skill-creation",
+    "tera",
+    "templates"
   ]
 }
