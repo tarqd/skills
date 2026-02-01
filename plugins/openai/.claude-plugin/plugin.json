@@ -1,0 +1,10 @@
+{
+  "name": "openai",
+  "version": "1.0.0",
+  "description": "Skills for developing and working with openai/chatgpt",
+  "author": {
+    "name": "tarq"
+  },
+  "license": "MIT",
+  "keywords": []
+}

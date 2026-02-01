@@ -20,23 +20,51 @@
         "template",
         "developer-tools"
       ],
-      "keywords": ["kickstart", "scaffolding", "scaffold", "template"]
+      "keywords": [
+        "kickstart",
+        "scaffolding",
+        "scaffold",
+        "template"
+      ]
     },
     {
       "name": "rust",
       "description": "A plugin for working with Rust projects",
       "source": "./plugins/rust",
       "category": "cli",
-      "tags": ["rust", "development", "developer-tools"],
-      "keywords": ["rust", "cli", "developer-tools"]
+      "tags": [
+        "rust",
+        "development",
+        "developer-tools"
+      ],
+      "keywords": [
+        "rust",
+        "cli",
+        "developer-tools"
+      ]
     },
     {
       "name": "just",
       "description": "A plugin for working with Justfiles",
       "source": "./plugins/just",
       "category": "cli",
-      "tags": ["just", "development", "developer-tools"],
-      "keywords": ["just", "cli", "developer-tools"]
+      "tags": [
+        "just",
+        "development",
+        "developer-tools"
+      ],
+      "keywords": [
+        "just",
+        "cli",
+        "developer-tools"
+      ]
+    },
+    {
+      "name": "openai",
+      "source": "./plugins/openai",
+      "category": "utilities",
+      "tags": [],
+      "keywords": []
     }
   ]
 }
