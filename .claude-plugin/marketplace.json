@@ -65,6 +65,47 @@
       "category": "utilities",
       "tags": [],
       "keywords": []
+    },
+    {
+      "name": "git",
+      "description": "Git workflow skills: commits, gitignore management, README updates, and changelog generation",
+      "source": "./plugins/git",
+      "category": "developer-tools",
+      "tags": [
+        "git",
+        "version-control",
+        "workflow",
+        "developer-tools"
+      ],
+      "keywords": [
+        "git",
+        "commit",
+        "gitignore",
+        "readme",
+        "changelog",
+        "version-control"
+      ]
+    },
+    {
+      "name": "plugin-development",
+      "description": "A comprehensive toolkit for creating, validating, and distributing Claude Code plugins",
+      "source": "./plugins/plugin-development",
+      "category": "developer-tools",
+      "tags": [
+        "plugin-development",
+        "plugin-authoring",
+        "cli-tools",
+        "validation",
+        "scaffolding",
+        "developer-tools"
+      ],
+      "keywords": [
+        "plugin-development",
+        "plugin-authoring",
+        "cli-tools",
+        "validation",
+        "scaffolding"
+      ]
     }
   ]
 }

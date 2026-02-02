@@ -1,0 +1,8 @@
+{
+  "name": "git",
+  "description": "Git workflow skills: commits, gitignore management, README updates, and changelog generation",
+  "version": "0.1.0",
+  "author": {
+    "name": "Claude Code"
+  }
+}
