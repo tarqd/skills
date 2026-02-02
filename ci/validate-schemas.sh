@@ -60,12 +60,14 @@ echo ""
 echo "=== Marketplace manifests ==="
 while IFS= read -r -d '' file; do
     relative_path="${file#"${REPO_ROOT}/"}"
-    if jsonschema validate "${MARKETPLACE_SCHEMA}" "${file}" 2>&1; then
+    if output=$(jsonschema validate "${MARKETPLACE_SCHEMA}" "${file}" 2>&1); then
         echo -e "${GREEN}✓${NC} ${relative_path}"
-        ((VALIDATED++))
+        VALIDATED=$((VALIDATED + 1))
     else
         echo -e "${RED}✗${NC} ${relative_path}"
-        ((ERRORS++))
+        echo "${output}"
+        echo ""
+        ERRORS=$((ERRORS + 1))
     fi
 done < <(find "${REPO_ROOT}" -name "marketplace.json" -type f -not -path "*/templates/*" -print0)
 
@@ -75,12 +77,14 @@ echo ""
 echo "=== Plugin manifests ==="
 while IFS= read -r -d '' file; do
     relative_path="${file#"${REPO_ROOT}/"}"
-    if jsonschema validate "${PLUGIN_SCHEMA}" "${file}" 2>&1; then
+    if output=$(jsonschema validate "${PLUGIN_SCHEMA}" "${file}" 2>&1); then
         echo -e "${GREEN}✓${NC} ${relative_path}"
-        ((VALIDATED++))
+        VALIDATED=$((VALIDATED + 1))
     else
         echo -e "${RED}✗${NC} ${relative_path}"
-        ((ERRORS++))
+        echo "${output}"
+        echo ""
+        ERRORS=$((ERRORS + 1))
     fi
 done < <(find "${REPO_ROOT}" -path "*/.claude-plugin/plugin.json" -type f -not -path "*/templates/*" -print0)
 

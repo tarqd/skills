@@ -17,11 +17,11 @@ for template_toml in "$TEMPLATES_DIR"/*/template.toml; do
 
         if kickstart validate "$template_toml" > /dev/null 2>&1; then
             echo "✓ $template_name"
-            ((validated++))
+            validated=$((validated + 1))
         else
             echo "✗ $template_name"
             kickstart validate "$template_toml" 2>&1 | sed 's/^/  /'
-            ((errors++))
+            errors=$((errors + 1))
         fi
     fi
 done
