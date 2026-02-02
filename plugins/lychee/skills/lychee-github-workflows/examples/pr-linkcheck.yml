@@ -1,0 +1,35 @@
+name: PR Link Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --cache '**/*.md' '**/*.html'
+          output: .lychee.report.md
+
+      - name: Comment Broken Links
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: failure()
+        with:
+          path: .lychee.report.md

@@ -1,0 +1,39 @@
+# lychee.toml - Documentation Site Configuration
+# For general documentation projects (Sphinx, MkDocs, Docusaurus, etc.)
+
+# Enable caching for faster repeated checks
+cache = true
+max_cache_age = "7d"
+
+# Request settings
+timeout = 30
+max_retries = 3
+max_concurrency = 100
+
+# Accept successful responses and rate limit responses
+accept = [200, 201, 202, 203, 204, 429]
+
+# Exclude placeholder and local URLs
+exclude = [
+  "localhost",
+  "127\\.0\\.0\\.1",
+  "0\\.0\\.0\\.0",
+  "https://example\\.com",
+  "https://.*\\.example\\.org",
+  "https://.*\\.example\\.net"
+]
+
+# Exclude paths that shouldn't be checked
+exclude_path = [
+  "node_modules/.*",
+  "dist/.*",
+  "build/.*",
+  "\\.git/.*",
+  "__pycache__/.*"
+]
+
+# Don't check code blocks for links
+include_verbatim = false
+
+# User agent
+user_agent = "lychee/link-checker"

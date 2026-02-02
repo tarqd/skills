@@ -1,0 +1,30 @@
+# lychee.toml - mdBook Project Configuration
+# Optimized for mdBook documentation projects
+
+cache = true
+max_cache_age = "1d"
+
+timeout = 20
+max_retries = 5
+max_concurrency = 128
+
+accept = [200, 201, 202, 203, 204, 429]
+
+# Exclude build artifacts and local URLs
+exclude_path = [
+  "book/.*",         # mdBook build output
+  "node_modules/.*",
+  "\\.git/.*"
+]
+
+exclude = [
+  "localhost",
+  "127\\.0\\.0\\.1",
+  "https://example\\.com"
+]
+
+# mdBook-specific: Check source files, not generated HTML
+# Usage: lychee --config lychee.toml src/
+
+# For checking built HTML with proper base path resolution
+# Usage: lychee --config lychee.toml --root-dir $(pwd)/book/html book/html
