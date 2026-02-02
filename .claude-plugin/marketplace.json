@@ -87,24 +87,23 @@
       ]
     },
     {
-      "name": "plugin-development",
-      "description": "A comprehensive toolkit for creating, validating, and distributing Claude Code plugins",
-      "source": "./plugins/plugin-development",
+      "name": "lychee",
+      "description": "Link checking with lychee - CLI usage, configuration, and GitHub Actions workflows",
+      "source": "./plugins/lychee",
       "category": "developer-tools",
       "tags": [
-        "plugin-development",
-        "plugin-authoring",
-        "cli-tools",
-        "validation",
-        "scaffolding",
+        "link-checker",
+        "documentation",
+        "ci-cd",
+        "github-actions",
         "developer-tools"
       ],
       "keywords": [
-        "plugin-development",
-        "plugin-authoring",
-        "cli-tools",
-        "validation",
-        "scaffolding"
+        "link-checker",
+        "lychee",
+        "documentation",
+        "ci-cd",
+        "github-actions"
       ]
     }
   ]
