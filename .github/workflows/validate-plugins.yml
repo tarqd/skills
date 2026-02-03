@@ -21,12 +21,12 @@ jobs:
       - name: Install jsonschema CLI
         uses: sourcemeta/jsonschema@v14.5.0
 
-      - name: Install kickstart
+      - name: Setup gah
         uses: get-gah/setup-gah@v1
         with:
           version: latest
 
-      - name: Install kickstart tool
+      - name: Install kickstart
         run: gah install Keats/kickstart --tag=v0.6.0 --unattended
 
       - name: Run validations
