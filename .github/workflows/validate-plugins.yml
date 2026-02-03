@@ -22,9 +22,13 @@ jobs:
         uses: sourcemeta/jsonschema@v14.5.0
 
       - name: Install kickstart
-        uses: get-gah/setup-gah@v1
-        with:
-          tools: kickstart
+        run: |
+          curl -fsSL --retry 3 https://github.com/Keats/kickstart/releases/download/v0.6.0/kickstart-v0.6.0-x86_64-unknown-linux-gnu.tar.gz -o kickstart.tar.gz
+          tar -xzf kickstart.tar.gz
+          chmod +x kickstart
+          sudo mv kickstart /usr/local/bin/
+          rm kickstart.tar.gz
+          kickstart --version
 
       - name: Run validations
         run: just ci
