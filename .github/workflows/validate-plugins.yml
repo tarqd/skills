@@ -25,6 +25,7 @@ jobs:
         uses: get-gah/setup-gah@v1
         with:
           tools: kickstart
+          version: 0.6.0
 
       - name: Run validations
         run: just ci
