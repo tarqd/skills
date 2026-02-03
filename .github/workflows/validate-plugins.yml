@@ -24,8 +24,10 @@ jobs:
       - name: Install kickstart
         uses: get-gah/setup-gah@v1
         with:
-          tools: kickstart
-          version: 0.6.0
+          version: latest
+
+      - name: Install kickstart tool
+        run: gah install Keats/kickstart --tag=v0.6.0 --unattended
 
       - name: Run validations
         run: just ci
