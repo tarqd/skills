@@ -230,3 +230,4 @@ For detailed implementation guidance:
 - [Apps SDK Documentation](https://developers.openai.com/apps-sdk)
 - [MCP Specification](https://modelcontextprotocol.io)
 - [Apps SDK Reference](https://developers.openai.com/apps-sdk/reference)
+b
