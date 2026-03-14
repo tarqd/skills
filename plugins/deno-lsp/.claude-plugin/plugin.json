@@ -1,5 +1,5 @@
 {
-  "name": "deno",
+  "name": "deno-lsp",
   "version": "0.2.0",
   "description": "Deno Language Server integration for Claude Code",
   "author": {

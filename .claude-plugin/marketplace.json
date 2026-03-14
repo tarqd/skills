@@ -107,9 +107,9 @@
       ]
     },
     {
-      "name": "deno",
+      "name": "deno-lsp",
       "description": "Deno Language Server integration for Claude Code",
-      "source": "./plugins/deno",
+      "source": "./plugins/deno-lsp",
       "category": "developer-tools",
       "tags": [
         "deno",
