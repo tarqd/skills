@@ -1,0 +1,8 @@
+{
+  "name": "deno",
+  "version": "0.2.0",
+  "description": "Deno Language Server integration for Claude Code",
+  "author": {
+    "name": "Wyatt Johnson"
+  }
+}

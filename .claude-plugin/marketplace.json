@@ -105,6 +105,34 @@
         "ci-cd",
         "github-actions"
       ]
+    },
+    {
+      "name": "deno",
+      "description": "Deno Language Server integration for Claude Code",
+      "source": "./plugins/deno",
+      "category": "developer-tools",
+      "tags": [
+        "deno",
+        "lsp",
+        "language-server",
+        "typescript",
+        "javascript",
+        "developer-tools"
+      ],
+      "keywords": [
+        "deno",
+        "lsp",
+        "language-server",
+        "typescript",
+        "javascript"
+      ]
+    },
+    {
+      "name": "typst",
+      "source": "./plugins/typst",
+      "category": "utilities",
+      "tags": [],
+      "keywords": []
     }
   ]
 }
