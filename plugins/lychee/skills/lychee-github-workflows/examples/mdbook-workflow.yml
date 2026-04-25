@@ -1,0 +1,61 @@
+name: mdBook Link Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**/*.md'
+      - 'book.toml'
+      - 'lychee.toml'
+
+env:
+  GH_MDBOOK_VERSION: "0.4.40"
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install mdBook
+        run: |
+          mkdir -p ~/bin
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v${{ env.GH_MDBOOK_VERSION }}/mdbook-v${{ env.GH_MDBOOK_VERSION }}-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C ~/bin
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Build mdBook
+        run: mdbook build
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check links (source)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Check source markdown files
+          args: --config lychee.toml --cache src/
+          output: .lychee.source.md
+
+      - name: Check links (built HTML)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Check generated HTML with root-dir for proper path resolution
+          args: --config lychee.toml --root-dir "$(pwd)/book/" --cache book/
+          output: .lychee.built.md
+
+      - name: Comment Results
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: failure()
+        with:
+          path: |
+            .lychee.source.md
+            .lychee.built.md

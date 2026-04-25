@@ -1,0 +1,9 @@
+# Lychee cache directory
+.lycheecache/
+
+# Local testing files
+*.test.md
+*.test.html
+
+# Empty directories
+skills/*/references/.gitkeep

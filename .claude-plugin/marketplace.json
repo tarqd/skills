@@ -67,6 +67,74 @@
       "keywords": []
     },
     {
+      "name": "git",
+      "description": "Git workflow skills: commits, gitignore management, README updates, and changelog generation",
+      "source": "./plugins/git",
+      "category": "developer-tools",
+      "tags": [
+        "git",
+        "version-control",
+        "workflow",
+        "developer-tools"
+      ],
+      "keywords": [
+        "git",
+        "commit",
+        "gitignore",
+        "readme",
+        "changelog",
+        "version-control"
+      ]
+    },
+    {
+      "name": "lychee",
+      "description": "Link checking with lychee - CLI usage, configuration, and GitHub Actions workflows",
+      "source": "./plugins/lychee",
+      "category": "developer-tools",
+      "tags": [
+        "link-checker",
+        "documentation",
+        "ci-cd",
+        "github-actions",
+        "developer-tools"
+      ],
+      "keywords": [
+        "link-checker",
+        "lychee",
+        "documentation",
+        "ci-cd",
+        "github-actions"
+      ]
+    },
+    {
+      "name": "deno-lsp",
+      "description": "Deno Language Server integration for Claude Code",
+      "source": "./plugins/deno-lsp",
+      "category": "developer-tools",
+      "tags": [
+        "deno",
+        "lsp",
+        "language-server",
+        "typescript",
+        "javascript",
+        "developer-tools"
+      ],
+      "keywords": [
+        "deno",
+        "lsp",
+        "language-server",
+        "typescript",
+        "javascript"
+      ]
+    },
+    {
+      "name": "typst",
+      "source": "./plugins/typst",
+      "category": "utilities",
+      "tags": [],
+      "keywords": []
+    },
+    {
       "name": "swift-mcp-server",
       "description": "Skill for developing MCP servers in Swift using the official swift-sdk",
       "source": "./plugins/swift-mcp-server",

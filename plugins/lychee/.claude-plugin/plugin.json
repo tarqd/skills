@@ -1,0 +1,20 @@
+{
+  "name": "lychee",
+  "version": "0.1.0",
+  "description": "Link checking with lychee - CLI usage, configuration, and GitHub Actions workflows",
+  "author": {
+    "name": "tarq",
+    "email": "code@tarq.io"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tarq-s/skills",
+  "homepage": "https://github.com/lycheeverse/lychee",
+  "keywords": [
+    "link-checker",
+    "lychee",
+    "documentation",
+    "ci-cd",
+    "github-actions",
+    "rust"
+  ]
+}

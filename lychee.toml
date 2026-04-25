@@ -1,0 +1,44 @@
+# lychee.toml - Link checking configuration for skills repository
+
+# Cache settings for faster repeated checks
+cache = true
+max_cache_age = "7d"
+
+# Request behavior
+timeout = 30
+max_retries = 3
+max_concurrency = 128
+
+# Accept successful status codes and rate limiting
+accept = [200, 201, 202, 203, 204, 429]
+
+# Exclude patterns
+exclude = [
+  # Exclude template directories
+  ".*/templates?/.*",
+  ".*/template/.*",
+
+  # Local development URLs
+  "localhost",
+  "127\\.0\\.0\\.1",
+
+  # Placeholder/example domains
+  "example\\.com",
+  "example\\.org"
+]
+
+# Exclude specific file paths
+exclude_path = [
+  # Exclude template directories
+  ".*/templates?/.*",
+  "templates?/.*",
+
+  # Common directories to skip
+  "node_modules/.*",
+  "target/.*",
+  "\\.git/.*"
+]
+
+# Include settings
+include_verbatim = false
+include_fragments = true

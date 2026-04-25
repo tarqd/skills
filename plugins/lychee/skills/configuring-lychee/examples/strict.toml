@@ -1,0 +1,35 @@
+# lychee.toml - Strict Configuration
+# For production checks with maximum validation
+
+# Disable cache to always check fresh
+cache = false
+
+# Longer timeout for thorough checks
+timeout = 60
+max_retries = 5
+
+# Only accept successful status codes (no 429, 500, etc.)
+accept = [200, 201, 202, 203, 204]
+
+# Require HTTPS when available
+require_https = true
+scheme = ["https"]
+
+# Check everything including code blocks
+include_verbatim = true
+include_fragments = true
+include_mail = true
+
+# Minimal exclusions (check as much as possible)
+exclude = [
+  # Only exclude truly local URLs
+  "localhost",
+  "127\\.0\\.0\\.1"
+]
+
+exclude_path = [
+  "\\.git/.*"  # Only exclude git internals
+]
+
+# Strict concurrency to avoid overwhelming servers
+max_concurrency = 50

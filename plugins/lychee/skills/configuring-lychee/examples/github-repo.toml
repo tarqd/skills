@@ -1,0 +1,43 @@
+# lychee.toml - GitHub Repository Configuration
+# For checking links in README, docs, and source files
+
+cache = true
+max_cache_age = "1d"
+
+timeout = 30
+max_retries = 3
+
+accept = [200, 201, 202, 203, 204, 429]
+
+# Exclude GitHub URLs that require authentication
+exclude = [
+  # Edit URLs require auth
+  "^https://github\\.com/.*/edit/.*",
+
+  # Draft PRs and private links
+  "^https://github\\.com/.*/pull/.*#discussion",
+
+  # Local development
+  "localhost",
+  "127\\.0\\.0\\.1",
+
+  # Placeholder domains
+  "example\\.com",
+  "example\\.org",
+  "example\\.net"
+]
+
+# Exclude dependency and build directories
+exclude_path = [
+  "node_modules/.*",
+  "target/.*",          # Rust
+  "vendor/.*",          # Go, PHP
+  "dist/.*",
+  "build/.*",
+  "\\.git/.*",
+  "__pycache__/.*"      # Python
+]
+
+# GitHub token from environment variable
+# Set: export GITHUB_TOKEN=ghp_...
+# This avoids rate limiting on github.com API checks

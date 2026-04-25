@@ -1,16 +1,1 @@
-{
-  "name": "just",
-  "version": "1.0.0",
-  "description": "Skills for writing justfiles and using the just command runner",
-  "author": {
-    "name": "Tarq"
-  },
-  "license": "MIT",
-  "keywords": [
-    "just",
-    "justfile",
-    "command-runner",
-    "task-runner",
-    "make"
-  ]
-}
+{"name": "just", "description": "test"}
