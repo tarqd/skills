@@ -65,6 +65,26 @@
       "category": "utilities",
       "tags": [],
       "keywords": []
+    },
+    {
+      "name": "swift-mcp-server",
+      "description": "Skill for developing MCP servers in Swift using the official swift-sdk",
+      "source": "./plugins/swift-mcp-server",
+      "category": "cli",
+      "tags": [
+        "swift",
+        "mcp",
+        "server",
+        "development",
+        "developer-tools"
+      ],
+      "keywords": [
+        "swift",
+        "mcp",
+        "model-context-protocol",
+        "swift-sdk",
+        "server"
+      ]
     }
   ]
 }

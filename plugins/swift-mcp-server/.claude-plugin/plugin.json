@@ -1,0 +1,8 @@
+{
+  "name": "swift-mcp-server",
+  "version": "0.1.0",
+  "description": "Skill for developing MCP servers in Swift using the official swift-sdk",
+  "author": {
+    "name": "tarq"
+  }
+}
