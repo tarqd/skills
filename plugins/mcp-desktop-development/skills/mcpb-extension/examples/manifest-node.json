@@ -1,0 +1,89 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-latest.schema.json",
+  "manifest_version": "0.3",
+  "name": "my-node-extension",
+  "display_name": "My Node.js MCP Extension",
+  "version": "1.0.0",
+  "description": "Example Node.js MCP desktop extension",
+  "long_description": "A reference manifest demonstrating the recommended Node.js layout, user_config, tools, and platform compatibility.",
+  "author": {
+    "name": "Your Name",
+    "email": "you@example.com",
+    "url": "https://example.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/you/my-node-extension"
+  },
+  "homepage": "https://example.com/my-node-extension",
+  "documentation": "https://example.com/my-node-extension/docs",
+  "support": "https://github.com/you/my-node-extension/issues",
+  "license": "MIT",
+  "keywords": ["mcp", "extension", "node"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.js",
+        "--workspace=${user_config.workspace_directory}",
+        "--max-results=${user_config.max_results}"
+      ],
+      "env": {
+        "API_KEY": "${user_config.api_key}",
+        "LOG_LEVEL": "${user_config.log_level}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "search",
+      "description": "Search the workspace for matching content"
+    },
+    {
+      "name": "summarize",
+      "description": "Summarize a document"
+    }
+  ],
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "API Key",
+      "description": "Authentication token for the upstream service",
+      "sensitive": true,
+      "required": true
+    },
+    "workspace_directory": {
+      "type": "directory",
+      "title": "Workspace",
+      "description": "Directory the extension may read",
+      "default": "${HOME}/Documents",
+      "required": true
+    },
+    "max_results": {
+      "type": "number",
+      "title": "Max results",
+      "description": "Maximum results returned per query",
+      "default": 25,
+      "min": 1,
+      "max": 500,
+      "required": false
+    },
+    "log_level": {
+      "type": "string",
+      "title": "Log level",
+      "description": "Logging verbosity (e.g., debug, info, warn, error)",
+      "default": "info",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "privacy_policies": []
+}

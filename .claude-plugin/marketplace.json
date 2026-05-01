@@ -153,6 +153,30 @@
         "swift-sdk",
         "server"
       ]
+    },
+    {
+      "name": "mcp-desktop-development",
+      "description": "Build, validate, sign, and bundle MCP desktop extensions (.mcpb) with @anthropic-ai/mcpb",
+      "source": "./plugins/mcp-desktop-development",
+      "category": "developer-tools",
+      "tags": [
+        "mcp",
+        "mcpb",
+        "desktop-extension",
+        "bundle",
+        "claude-desktop",
+        "developer-tools"
+      ],
+      "keywords": [
+        "mcp",
+        "mcpb",
+        "model-context-protocol",
+        "desktop-extension",
+        "manifest",
+        "bundle",
+        "pack",
+        "sign"
+      ]
     }
   ]
 }

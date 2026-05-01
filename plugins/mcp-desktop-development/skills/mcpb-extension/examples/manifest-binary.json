@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-latest.schema.json",
+  "manifest_version": "0.3",
+  "name": "my-binary-extension",
+  "display_name": "My Binary MCP Extension",
+  "version": "1.0.0",
+  "description": "Example MCP desktop extension shipping a compiled binary per platform",
+  "author": {
+    "name": "Your Name"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["mcp", "extension", "binary"],
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/server",
+    "mcp_config": {
+      "command": "${__dirname}/bin/server",
+      "args": [],
+      "env": {},
+      "platform_overrides": {
+        "darwin": {
+          "command": "${__dirname}/bin/server-darwin-arm64"
+        },
+        "win32": {
+          "command": "${__dirname}/bin/server-win32-x64.exe"
+        },
+        "linux": {
+          "command": "${__dirname}/bin/server-linux-x64"
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "ping",
+      "description": "Health check"
+    }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"]
+  }
+}
