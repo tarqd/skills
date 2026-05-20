@@ -177,6 +177,27 @@
         "pack",
         "sign"
       ]
+    },
+    {
+      "name": "agentic-dev",
+      "description": "Personal toolkit for using Claude as a coding agent: design → bootstrap → plan → drive pipeline with structured handoff reports, ADR management, and an ADR-edit advisory hook",
+      "source": "./plugins/agentic-dev",
+      "category": "developer-tools",
+      "tags": [
+        "agentic",
+        "workflow",
+        "adr",
+        "developer-tools"
+      ],
+      "keywords": [
+        "agentic",
+        "workflow",
+        "design",
+        "bootstrap",
+        "adr",
+        "track-plan",
+        "track-drive"
+      ]
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "name": "agentic-dev",
+  "version": "0.1.0",
+  "description": "Personal toolkit for using Claude as a coding agent: design → bootstrap → plan → drive pipeline with structured handoff reports, ADR management, and an ADR-edit advisory hook",
+  "author": {
+    "name": "tarq",
+    "email": "code@tarq.io"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tarqd/skills"
+}
