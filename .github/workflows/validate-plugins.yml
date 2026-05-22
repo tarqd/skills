@@ -18,6 +18,14 @@ jobs:
       - name: Setup just
         uses: extractions/setup-just@v3
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
       - name: Install jsonschema CLI
         uses: sourcemeta/jsonschema@v14.5.0
 

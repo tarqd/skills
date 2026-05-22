@@ -331,9 +331,24 @@ validate-marketplace: validate-schemas
 validate-templates:
     {{justfile_directory()}}/ci/validate-templates.sh
 
+# Validate every plugin and the marketplace via `claude plugin validate`
+[group('validate')]
+validate-plugins:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd {{justfile_directory()}}
+    failed=0
+    for plugin in plugins/*/; do
+        echo "→ $plugin"
+        claude plugin validate "$plugin" || failed=1
+    done
+    echo "→ .claude-plugin/marketplace.json"
+    claude plugin validate .claude-plugin/marketplace.json || failed=1
+    exit $failed
+
 # Run all validations
 [group('validate')]
-validate: validate-marketplace validate-templates
+validate: validate-marketplace validate-templates validate-plugins
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CI
