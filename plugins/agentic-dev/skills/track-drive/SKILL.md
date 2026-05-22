@@ -1,6 +1,14 @@
 ---
 name: track-drive
-description: Drive a GitHub tracking issue one step toward completion. Inspects PR and issue state, picks the next actionable sub-issue respecting dependencies and dedup signals, implements one slice, opens a PR, then exits with a structured report (carry-over / follow-up / retrospective). Use when the user wants to advance a tracking issue by one slice — typically paired with /track-plan, and often re-invoked by an external orchestrator (e.g. /goal) for autonomous progress. Idempotent: GitHub state is the only source of truth between runs.
+description: >-
+  Drive a GitHub tracking issue one step toward completion. Inspects PR and
+  issue state, picks the next actionable sub-issue respecting dependencies
+  and dedup signals, implements one slice, opens a PR, then exits with a
+  structured report (carry-over / follow-up / retrospective). Use when the
+  user wants to advance a tracking issue by one slice — typically paired
+  with /track-plan, and often re-invoked by an external orchestrator
+  (e.g. /goal) for autonomous progress. Idempotent — GitHub state is the
+  only source of truth between runs.
 user-invocable: true
 disable-model-invocation: true
 ---
