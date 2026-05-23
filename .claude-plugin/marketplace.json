@@ -172,6 +172,13 @@
       ]
     },
     {
+      "name": "diagnostics",
+      "source": {
+        "source": "github",
+        "repo": "tarqd/diagnostics-skill"
+      }
+    },
+    {
       "name": "agentic-dev",
       "description": "Personal toolkit for using Claude as a coding agent: design → bootstrap → plan → drive pipeline with structured handoff reports, ADR management, and an ADR-edit advisory hook",
       "source": "./plugins/agentic-dev",
