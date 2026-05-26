@@ -1,7 +1,7 @@
 {
   "name": "mcp-desktop-development",
   "version": "0.1.0",
-  "description": "Skills for building, validating, and bundling MCP desktop extensions (.mcpb) using @anthropic-ai/mcpb",
+  "description": "Skills for building, validating, and bundling MCP desktop extensions (.mcpb) — including TCC entitlement troubleshooting and codesigning.",
   "author": {
     "name": "tarq"
   }
