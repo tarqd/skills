@@ -19,11 +19,16 @@ differs by artifact, it says so.
 
 Before editing an existing instruction file, read it end to end and ask of each
 line: *would the model do this anyway?* Modern Claude models arrive with strong
-defaults — they verify their own work, narrate progress, parse JSON correctly,
-and prefer real fixes over test-passing hacks. An instruction that restates a
-default is not neutral; it compounds with the behavior the model already has
-and pushes it into excess. The single highest-value edit to most CLAUDE.md
-files is a delete.
+defaults — they verify their own work, catch and fix their own mistakes,
+narrate progress through long tasks, and plan multi-step work without being
+walked through it. An instruction that restates a default is not neutral; it
+compounds with the behavior the model already has and pushes it into excess.
+The single highest-value edit to most CLAUDE.md files is a delete.
+
+Not everything is a default, though, and the two are worth telling apart. Some
+behaviors genuinely do need prompting — staying in scope, not over-fitting to
+the test suite, confirming before destructive actions. Those earn their place.
+The test is not "is this a good idea" but "does the model already do this."
 
 If the file was written for an older model, assume some of it is now actively
 harmful. See [Instructions that have gone stale](#instructions-that-have-gone-stale).
@@ -83,9 +88,6 @@ The file is scanned by a model mid-task, not read front-to-back by a human.
   `<pr_conventions>`) bind a block of instructions to a name the model can hold
   onto, which matters more as the file grows. Markdown headings work; tags are
   stronger when a block must not bleed into its neighbors.
-- **Put long, stable content first.** Long-context behavior favors instructions
-  and queries *after* bulk material, so background and reference material go
-  above the directives that act on them.
 - **Push detail into files the model loads on demand.** A CLAUDE.md that says
   "for the release process see `docs/release.md`" costs a line per turn; one
   that inlines the release process costs the whole thing per turn. Reserve the
@@ -152,6 +154,47 @@ Things that do not:
 - Aspirational rules nobody follows — the model will follow them, and you will
   be surprised.
 
+### What the edit looks like
+
+Before — every line is either a default, a stale instruction, or a rule with no
+reason attached:
+
+```markdown
+## Code Style
+- Write clean, readable code
+- ALWAYS add type annotations
+- NEVER leave console.log in committed code
+- Follow existing patterns in the codebase
+
+## Testing
+- CRITICAL: You MUST run the tests before saying you are done
+- Always double-check your work before responding
+- If in doubt, use the search tool to find related tests
+```
+
+After:
+
+```markdown
+## Style
+Type annotations on exported functions — `tsc --noEmit` is a CI gate and
+untyped exports fail it. `console.log` fails the lint gate too; use the logger
+in `src/log.ts`.
+
+## Testing
+`npm test` runs everything and takes about four minutes; `npm test -- <path>`
+runs one file. The suite talks to a real Postgres on port 5433, so a connection
+error usually means `docker compose up db` rather than a broken test.
+```
+
+Six rules became four sentences. "Write clean code" and "follow existing
+patterns" were defaults. The verification and search instructions were stale —
+they now cause over-verification and over-searching. The two survivors picked
+up the reason that makes them generalize: a model that knows *why* `console.log`
+is banned also knows what to do about `console.error`. And the testing section
+stopped restating that tests should pass, and started carrying what the model
+genuinely cannot discover — how to run a single file, and how to read the
+failure it is most likely to hit.
+
 ## Per-model behavior
 
 CLAUDE.md is read by whichever model is running, so prefer instructions that
@@ -199,12 +242,30 @@ When asked to audit or improve a CLAUDE.md, work in this order:
 4. **Fix scope.** Anything meant broadly but written narrowly, or vice versa.
 5. **Move detail out.** Long procedures become linked files.
 6. **Check for conflicts.** Two instructions pulling opposite ways is the most
-   common cause of "Claude ignores my CLAUDE.md."
+   common cause of "Claude ignores my CLAUDE.md." Read the surviving rules as a
+   set and look for pairs that cannot both be maximized: be thorough against be
+   concise, implement rather than suggest against ask before changing files,
+   a general rule against a specific case that contradicts it rather than
+   narrowing it. Where you find one, decide which wins and say so in the file —
+   an explicit precedence beats two rules that quietly cancel.
 7. **Report the diff in terms of behavior** — what will change about how the
    agent acts, not how many lines you removed.
 
 Then say what you did not change and why, so the user can push back on
 judgment calls rather than re-reading the whole file.
+
+### Checking that the edit worked
+
+An instruction file has no test suite, but the edit was motivated by something
+observable or it wasn't worth making. Re-run the task that prompted it and
+check that specific behavior, rather than reading the file again and deciding
+it looks better.
+
+Change one thing at a time when you can. If you delete a verification
+instruction and add a conciseness one in the same pass and the output gets
+worse, you have no idea which did it — and the natural move at that point is to
+add a third instruction, which is how files grow into the state that needed
+auditing in the first place.
 
 ## Debugging "Claude won't follow my instructions"
 
