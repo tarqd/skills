@@ -232,40 +232,35 @@ to reintroduce the over-prompting patterns above.
 
 ## Reviewing an existing file
 
-When asked to audit or improve a CLAUDE.md, work in this order:
+Delete the restated defaults, strip the shouting, attach reasons to what
+survives, move long procedures out to their own files — you will do all of that
+without being walked through it. Spend the attention instead on the four passes
+an unaided read tends to skip.
 
-1. **Delete first.** Restated defaults, stale instructions from the table
-   above, anything the repo already makes obvious.
-2. **De-escalate.** Strip caps and MUST from anything not destructive.
-3. **Add reasons.** Every surviving rule that lacks a *why* gets one, or gets
-   cut.
-4. **Fix scope.** Anything meant broadly but written narrowly, or vice versa.
-5. **Move detail out.** Long procedures become linked files.
-6. **Check for conflicts.** Two instructions pulling opposite ways is the most
-   common cause of "Claude ignores my CLAUDE.md." Read the surviving rules as a
-   set and look for pairs that cannot both be maximized: be thorough against be
-   concise, implement rather than suggest against ask before changing files,
-   a general rule against a specific case that contradicts it rather than
-   narrowing it. Where you find one, decide which wins and say so in the file —
-   an explicit precedence beats two rules that quietly cancel.
-7. **Report the diff in terms of behavior** — what will change about how the
-   agent acts, not how many lines you removed.
+**Name the mechanism, not just the smell.** Cutting a line because it reads as
+filler and cutting it because it restates behavior the model already has are
+the same edit and a different lesson — only the second tells the author what
+not to write next time. Use the table above to say which default it collides
+with.
 
-Then say what you did not change and why, so the user can push back on
-judgment calls rather than re-reading the whole file.
+**Write the precedence down.** Two rules pulling opposite ways is the most
+common cause of "Claude ignores my CLAUDE.md": be thorough against be concise,
+implement rather than suggest against ask before changing files, a general rule
+against a specific case that contradicts rather than narrows it. Spotting them
+is the easy part — leaving the resolution implicit is what lets them grow back.
+Decide which wins and say so in the file.
 
-### Checking that the edit worked
+**Check that it worked.** The edit was motivated by something observable or it
+wasn't worth making. Re-run the task that prompted it and watch that specific
+behavior, rather than rereading the file and deciding it looks better.
 
-An instruction file has no test suite, but the edit was motivated by something
-observable or it wasn't worth making. Re-run the task that prompted it and
-check that specific behavior, rather than reading the file again and deciding
-it looks better.
+**Change one thing at a time.** Delete a verification instruction and add a
+conciseness one in the same pass, and when the result shifts you cannot tell
+which did it. The instinct at that point is to add a third, which is how files
+grow into the state that needed auditing.
 
-Change one thing at a time when you can. If you delete a verification
-instruction and add a conciseness one in the same pass and the output gets
-worse, you have no idea which did it — and the natural move at that point is to
-add a third instruction, which is how files grow into the state that needed
-auditing in the first place.
+Then say what you did not change and why, so the user can push back on judgment
+calls rather than re-reading the whole file.
 
 ## Debugging "Claude won't follow my instructions"
 
