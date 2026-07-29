@@ -1,9 +1,9 @@
 # Writing agent instructions for Claude Opus 5
 
-`claude-opus-5` — the default for complex agentic coding and enterprise work.
-Existing Opus 4.8 instruction files carry over well; the items below are the
-behaviors that most often need tuning, and the ones where a file written for an
-earlier model now does damage.
+`claude-opus-5` — implementation, and the default for anything not explicitly
+assigned elsewhere. Existing Opus 4.8 instruction files carry over well; the
+items below are the behaviors that most often need tuning, and the ones where a
+file written for an earlier model now does damage.
 
 ## Delete before you add
 

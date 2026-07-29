@@ -9,45 +9,58 @@ than trusting a cached table.
 
 Ordered most to least capable.
 
-| Model | ID | Context | Where it wins |
+| Model | ID | Context | Role |
 | --- | --- | --- | --- |
-| Claude Fable 5 | `claude-fable-5` | 1M | The hardest, longest, most ambiguous work — multi-hour to multi-day autonomous runs, first-shot implementation of well-specified systems, dense or degraded vision, sustained parallel delegation |
+| Claude Fable 5 | `claude-fable-5` | 1M | Long-running orchestration; design and planning; focused review of correctness-impacting code with many external invariants |
 | Claude Mythos 5 | `claude-mythos-5` | 1M | Identical to Fable 5; available only through Project Glasswing. Use Fable 5 unless the org participates. |
-| Claude Opus 5 | `claude-opus-5` | 1M | The default for complex agentic coding — multi-file features, larger refactors, end-to-end work; high-precision code review; strong multi-agent coordination |
-| Claude Sonnet 5 | `claude-sonnet-5` | 1M | Near-Opus quality on coding and agentic tasks, and faster — the workhorse for breadth and fan-out |
-| Claude Haiku 4.5 | `claude-haiku-4-5` | 200K | Simple, scoped, latency-sensitive work: classification, extraction, mechanical transforms, high-volume passes |
+| Claude Opus 5 | `claude-opus-5` | 1M | Implementation, and the default for everything not covered by another row |
+| Claude Sonnet 5 | `claude-sonnet-5` | 1M | Bounded work with a complete brief — exploration, well-specified implementation, the wide legs of a fan-out |
+| Claude Haiku 4.5 | `claude-haiku-4-5` | 200K | Mechanical work with a checkable answer: classification, extraction, fixed-shape rewrites, high-volume passes |
 
 Use the exact ID strings — they carry no date suffix. Haiku 4.5 is the only one
 with a 200K window rather than 1M, which matters as soon as a subagent has to
 read large files.
 
-## Picking a default
+## Picking a model
 
-Start at **Opus 5** for anything agentic and reach in either direction with a
-reason:
+Decide from what the task **is**, not from a guess about what it will consume.
+You cannot estimate a run's length or spend before it starts, and a rule that
+asks you to is a rule you will apply badly. Match on the role instead:
 
-- **Up to Fable 5** when the task is genuinely at or above the edge of what
-  Opus 5 finishes cleanly: long-horizon autonomous runs that must hold
-  instructions across hours, deeply ambiguous multi-threaded requests where the
-  model has to determine next steps, first-pass implementation of a system
-  that would otherwise take days of iteration. Its turns run long — many
-  minutes at higher effort — so it is the wrong choice for anything
-  interactive. Two constraints to check first: Fable 5 is not intended for
-  offensive cybersecurity or biology and life-sciences work and will decline
-  those requests, and it requires 30-day data retention (unavailable to
-  zero-data-retention orgs).
-- **Down to Sonnet 5** when the task is well-specified and the bottleneck is
-  throughput rather than judgment. This is the right default for wide fan-out —
-  many subagents doing bounded work in parallel, where the run finishes when
-  the slowest one does.
-- **Down to Haiku 4.5** when the work is mechanical and the answer is checkable:
-  labeling, extracting fields, rewriting to a fixed shape, sweeping a list.
-  Don't hand it anything requiring multi-step reasoning, and watch the 200K
-  window.
+**Fable 5** — three roles, all of them "hold a lot at once, for a long time":
 
-The orchestrator is one context; the subagents are many. Tier decisions
-therefore land hardest on the fan-out, not the loop — a weak orchestrator
-directing strong subagents is usually the wrong shape.
+- **Long-running orchestrator.** The agent that stays alive across a multi-hour
+  or multi-day run, dispatches others, and has to still be holding the original
+  instructions at the end.
+- **Design and planning.** Ambiguous, multi-threaded requests where the job is
+  to work out what the next steps *are* — not to execute steps already given.
+- **Focused review of correctness-impacting code with many external
+  invariants.** The discriminator is invariants the diff doesn't show: ordering
+  guarantees, protocol contracts, concurrency assumptions, things another system
+  relies on. Not "is this code good" — "is this code still correct given
+  everything it has to stay true to."
+
+Two hard constraints regardless of fit: Fable 5 is not intended for offensive
+cybersecurity or biology and life-sciences work and will decline those
+requests, and it requires 30-day data retention, so it is unavailable to
+zero-data-retention organizations.
+
+**Opus 5** — implementation, and the default. If the task is to build, change,
+or fix something against a spec that already exists, it goes here. If none of
+the other rows clearly matches, it also goes here. Prefer this over deliberating
+about the choice.
+
+**Sonnet 5** — bounded work with a complete brief: exploration, well-specified
+implementation, the wide legs of a fan-out. The test is whether the subagent
+could be handed the brief with no further conversation and still finish.
+
+**Haiku 4.5** — mechanical work with a checkable answer: labeling, extracting
+fields, rewriting to a fixed shape, sweeping a known list. Nothing requiring
+multi-step reasoning, and watch the 200K window.
+
+When two rows seem to apply, take the more capable one. When you are unsure at
+all, take Opus 5 — an unnecessary tier up is recoverable, a task that stalls
+because it was under-resourced is not.
 
 ## Delegation patterns
 
@@ -60,17 +73,19 @@ model instead of switching the loop.
 
 | Subagent job | Model |
 | --- | --- |
-| Wide read-only exploration across many files | Sonnet 5 — breadth, and it returns fast enough that a wide fan-out still converges |
+| Wide read-only exploration across many files | Sonnet 5 |
 | Bounded, well-specified implementation from a clear spec | Sonnet 5 |
 | A hard, self-contained implementation the orchestrator can't hold in context | Opus 5 |
-| Adversarial verification / independent second opinion | Opus 5 — fresh context matters more than tier, but review precision is a real strength here |
+| Adversarial verification / independent second opinion | Opus 5 |
+| Review of code whose correctness turns on invariants outside the diff | Fable 5 |
 | Mechanical sweep over a known list (rename, reformat, classify) | Haiku 4.5 |
-| A track of work that will run for hours without supervision | Fable 5 |
+| A track of work that runs unsupervised across many turns | Fable 5 |
 
 **Fresh context beats a bigger model for verification.** A verifier subagent's
-value comes from not having seen the reasoning that produced the artifact.
-Spending up a tier for a verifier that shares the author's context buys less
-than spending down a tier for one that doesn't.
+value comes from not having seen the reasoning that produced the artifact. A
+verifier one tier down that starts clean is worth more than one a tier up that
+inherits the author's context — so spend the tier on the invariant-heavy
+reviews above, and spend isolation everywhere else.
 
 **Delegation propensity differs by model, and that is a prompting problem.**
 Opus 5 and Fable 5 both reach for subagents readily; Opus 4.8 under-reaches.
@@ -115,11 +130,13 @@ table with the reason attached, not as a rule:
 
 ```markdown
 ## Model assignment
-- Orchestration and hard implementation: Opus 5.
-- Exploration and bounded implementation subagents: Sonnet 5 — these fan out
-  wide and the round finishes when the slowest one does.
-- The nightly migration sweep: Fable 5 — it runs unattended for hours and has
-  to hold the spec across the whole run.
+- Implementation, and anything not listed below: Opus 5.
+- Exploration and bounded implementation subagents: Sonnet 5 — they get a
+  complete brief and don't come back for clarification.
+- Planning a phase, and reviewing the scheduler and the wire protocol:
+  Fable 5 — both turn on invariants that aren't visible in the diff.
+- The nightly migration sweep: Fable 5 — it orchestrates unattended and has to
+  hold the spec across the whole run.
 ```
 
 The reason is what lets someone (or the agent) revise the choice sensibly when

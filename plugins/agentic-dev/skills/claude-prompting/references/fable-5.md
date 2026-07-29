@@ -1,9 +1,10 @@
 # Writing agent instructions for Claude Fable 5
 
-`claude-fable-5` — the most capable widely released model, for the hardest,
-longest-running, most ambiguous work. Everything here applies equally to
-`claude-mythos-5`, which is the same model available through Project
-Glasswing.
+`claude-fable-5` — the most capable widely released model. Its roles are
+long-running orchestration, design and planning, and focused review of
+correctness-impacting code with many external invariants; see
+`model-selection.md`. Everything here applies equally to `claude-mythos-5`,
+which is the same model available through Project Glasswing.
 
 Two constraints to check before writing anything for it: Fable 5 is not
 intended for offensive cybersecurity or biology and life-sciences work and will
