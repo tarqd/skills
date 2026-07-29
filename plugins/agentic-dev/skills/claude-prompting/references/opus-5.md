@@ -86,9 +86,9 @@ or below. If a harness disables it, two artifacts can appear:
   an agentic loop the leaked text stays in history and skews later turns.
 - Internal XML tags (`<thinking>` and others) in the visible response.
 
-The primary mitigation for both is to leave thinking on and control cost with a
-lower effort level instead; thinking enabled at `low` generally outperforms
-thinking disabled at similar cost. If it must stay off, one combined
+The primary mitigation for both is to leave thinking on and use a lower effort
+level instead; thinking enabled at `low` generally outperforms thinking
+disabled at similar token spend. If it must stay off, one combined
 instruction covers both: allow a brief sentence before a tool call, allow the
 model to say when no tool fits, and forbid internal or system XML tags
 generically. **Do not name thinking tags specifically** — instructions that call
@@ -110,5 +110,6 @@ the model not to think or not to reason *increases* leakage.
 - **Multi-agent** — coordinates teams of subagents well, with effective
   writer-verifier patterns and few cases of agents overwriting each other.
 - **Effort** — `low` and `medium` produce strong quality at a fraction of the
-  tokens; treat them as the primary cost lever and step up to `xhigh` for
-  demanding work. Re-run an effort sweep rather than carrying defaults over.
+  tokens and latency; treat them as the primary throughput lever and step up to
+  `xhigh` for demanding work. Re-run an effort sweep rather than carrying
+  defaults over.

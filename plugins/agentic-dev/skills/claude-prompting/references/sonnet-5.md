@@ -1,9 +1,9 @@
 # Writing agent instructions for Claude Sonnet 5
 
-`claude-sonnet-5` — near-Opus quality on coding and agentic work at roughly
-half the cost, which makes it the usual choice for subagents and fan-out. It
-performs well on existing Sonnet 4.6 instructions; the items below are what
-most often needs tuning.
+`claude-sonnet-5` — near-Opus quality on coding and agentic work, and quick
+enough to be the usual choice for subagents and fan-out. It performs well on
+existing Sonnet 4.6 instructions; the items below are what most often needs
+tuning.
 
 ## Literal instruction following
 

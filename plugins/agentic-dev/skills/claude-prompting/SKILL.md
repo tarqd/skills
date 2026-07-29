@@ -173,8 +173,8 @@ user is seeing a specific misbehavior, read the file for the model they are on:
 
 Read [`references/model-selection.md`](references/model-selection.md) when
 deciding which model to assign to a task, subagent, or workflow stage — it
-covers the 5-series lineup, relative strengths, cost tiers, effort levels, and
-what to delegate where. Consult it whenever you are writing a subagent
+covers the 5-series lineup, relative strengths, context windows, effort levels,
+and what to delegate where. Consult it whenever you are writing a subagent
 definition with a `model:` field, or the user asks "which model should I use
 for X".
 
