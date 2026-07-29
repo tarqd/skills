@@ -3,8 +3,9 @@
 Personal toolkit for using Claude as a coding agent. Five
 user-invoked skills that compose into a pipeline from "rough design
 discussion" to "tracked, slice-by-slice execution against a
-GitHub tracking issue," plus an advisory hook that watches ADR
-edits.
+GitHub tracking issue," plus a model-invoked skill for writing the
+instruction files those agents read, and an advisory hook that
+watches ADR edits.
 
 ## Pipeline
 
@@ -30,9 +31,13 @@ to be re-invoked.
 | **`adr`**          | Manage Architecture Decision Records — propose new, supersede / accept / reject existing, audit the set for drift. Detects project convention; never invents a format. |
 | **`track-plan`**   | Scaffold a parent tracking issue + sub-issues from a spec doc (phase, ADR, migration plan). Parent-first creation; user confirms the slice list before any issues are created. |
 | **`track-drive`**  | Drive a tracking issue toward completion. One slice per run; idempotent. Exits with a structured carry-over / follow-up / retrospective report. Step-0 policy gate decides how follow-ups are dispatched. |
+| **`claude-prompting`** | How to write the instructions Claude reads as an agent — CLAUDE.md, AGENTS.md, SKILL.md, subagent and slash-command definitions. Covers the over-prompting trap, instructions that used to help and now backfire, per-model behavior deltas across the Claude 5 series, and which model to hand a task to. |
 
-All skills are `user-invocable: true` + `disable-model-invocation: true`
-— invoke explicitly via slash command; nothing auto-triggers.
+The five pipeline skills are `user-invocable: true` +
+`disable-model-invocation: true` — invoke explicitly via slash
+command; nothing auto-triggers. `claude-prompting` is the exception:
+it is model-invoked, so it surfaces on its own whenever an
+instruction file is being written, reviewed, or debugged.
 
 ## Hook
 
@@ -95,6 +100,15 @@ plugins/agentic-dev/
       references/
         report-shape.md      ← section detail, disambiguation table, sample
     track-plan/SKILL.md
+    claude-prompting/
+      SKILL.md
+      references/
+        model-selection.md   ← 5-series lineup, delegation, effort
+        opus-5.md            ← per-model behavior deltas
+        sonnet-5.md
+        fable-5.md
+        opus-4-8.md
+        snippets.md          ← tested instruction blocks
 ```
 
 ## Conventions baked in
