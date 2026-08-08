@@ -27,7 +27,7 @@ jobs:
         run: npm install -g @anthropic-ai/claude-code
 
       - name: Install jsonschema CLI
-        uses: sourcemeta/jsonschema@v14.14.2
+        uses: sourcemeta/jsonschema@v16.0.0
 
       - name: Install kickstart
         run: |
